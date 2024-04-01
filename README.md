@@ -1,93 +1,97 @@
-# PWP SPRING 2024
-# Group information
+# PWP Spring 2024
+## Group Information
 
-* Student 1. Md Mobusshar Islam \<mislam23@student.oulu.fi\>
-* Student 2. Emmanuel Ikwunna \<emmanuel.ikwunna@student.oulu.fi\>
-* Student 3. Shanaka Badde Liyanage Don \<shanaka.baddeliyanagedon@student.oulu.fi\>
+- **Student 1:** Md Mobusshar Islam \<mislam23@student.oulu.fi\>
+- **Student 2:** Emmanuel Ikwunna \<emmanuel.ikwunna@student.oulu.fi\>
+- **Student 3:** Shanaka Badde Liyanage Don \<shanaka.baddeliyanagedon@student.oulu.fi\>
 
-# Ice hockey Tracker API
+## Ice Hockey Tracker API
 
 ### Overview
-The Ice Hockey Tracker API is a Python 3-based project leveraging Flask and Flask-SQLAlchemy among other libraries. The project dependencies are detailed in icehockeytracker/requirements.txt at the root directory.
+
+The Ice Hockey Tracker API is a Python 3-based project leveraging Flask and Flask-SQLAlchemy among other libraries. The project dependencies are detailed in `icehockeytracker/requirements.txt` at the root directory.
 
 ### Getting Started
 
-Cloning the Repository
+#### Cloning the Repository
 
 To clone the project, use the following command:
 
-```bash
+```sh
 git clone https://github.com/shanz007/IceHockeyTrackerAPI.git
 ```
 
-Installing Dependencies
+#### Installing Dependencies
 
 Navigate to the project directory and install the required dependencies:
 
-	pip install -r requirements.txt
+```sh
+pip install -r requirements.txt
+```
 
-Configuration
+#### Configuration
 
 Set up the environment variables:
-	
- 	export FLASK_ENV=development
-	export FLASK_APP=icehockeytracker
+
+```sh
+export FLASK_ENV=development
+export FLASK_APP=icehockeytracker
+```
 
 ### Database Setup
-This project uses ***SQLite (version 3.40.1)*** as its database engine.
 
-Initialization and Population:
+This project uses SQLite (version 3.40.1) as its database engine.
 
-Populization with some random test data to check the integrity between each database relations and models. 
+#### Initialization and Population
 
+To initialize and populate the database with sample data:
 
-Database Initilisation
+**Initialization:**
 
-	flask --app icehockeytracker init-db
+```sh
+flask --app icehockeytracker init-db
+```
 
+**Population with Sample Data:**
 
-Database data populization 
+```sh
+flask --app icehockeytracker db-populate
+```
 
-	flask --app icehockeytracker db-populate
-	
+The database scripts are located in `model.py`, and the populated database file is stored under `icehockeytracker/instance/`.
 
-All the python scripts for above tasks are listed in the model.py file. The populated db file can be found in the icehockeytracker/instance/ subfolder.
+### Running the API Server
 
+After completing the database setup, start the API server with:
 
-## Start API Server 
+```sh
+flask --app icehockeytracker run
+```
 
-Upon success of the above database steps , the API Server can be invoked by executing
+The server will be accessible at <http://127.0.0.1:5000/>.
 
-	
-	flask --app icehockeytracker runs
+### Testing and Coverage
 
- 	Access the server http://127.0.0.1:5000/
+For testing, this project uses pytest and pytest-cov, found in `test/requirements.txt`. To run tests:
 
+```sh
+flask --app icehockeytracker test
+```
 
-     
-## API Server Testing & Test Coverage
+For coverage reports:
 
-All of the test dependencies can be found in the file : test/requirements.txt from the root directory of the project. for testing **pytest and pytest-cov** are used specifically.
-test folder includes model classes that have been tested
+```sh
+pytest --cov-report term-missing --cov=icehockeytracker
+```
 
-	flask --app icehockeytracker test
+### Code Quality
 
-For testing with coverage 
+Pylint is used for ensuring code quality and compliance:
 
-	pytest --cov-report term-missing --cov=icehockeytracker
- 
+```sh
+pylint icehockeytracker
+```
 
-## API Server Code quality compliance 
+### API Documentation
 
-For code quality and compliance, we have used pylint  
-
- 	pylint icehockeytracker
-
-
-## API Server documentation 
-
-All of the documentation dependencies can be found in the main requirement.txt. we have used flasgger and pyyaml
-
-	For Swagger API documentation  :  http://127.0.0.1:5000/apidocs/
-
-
+API documentation is generated with Flasgger and PyYAML, included in the main `requirements.txt`. Access the Swagger UI documentation at <http://127.0.0.1:5000/apidocs/>.
