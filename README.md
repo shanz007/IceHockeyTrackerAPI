@@ -7,32 +7,38 @@
 
 # Ice hockey Tracker API
 
-## IceHockeyTrackerAPI Dependecy Information & Installation*
+### Overview
+The Ice Hockey Tracker API is a Python 3-based project leveraging Flask and Flask-SQLAlchemy among other libraries. The project dependencies are detailed in icehockeytracker/requirements.txt at the root directory.
 
-This is a Python3 based project that uses python related libraries such as  flask, flask_sqlalchemy etc
-All of the dependencies can be found in the file icehockeytracker/requirements.txt from the root directory of the project.
+### Getting Started
 
-For Cloing the project using below command
+Cloning the Repository
 
- 	git clone https://github.com/shanz007/IceHockeyTrackerAPI.git
+To clone the project, use the following command:
 
-For Installing dependencies, please execute 
+```bash
+git clone https://github.com/shanz007/IceHockeyTrackerAPI.git
+```
+
+Installing Dependencies
+
+Navigate to the project directory and install the required dependencies:
 
 	pip install -r requirements.txt
 
-For configurations
+Configuration
+
+Set up the environment variables:
 	
  	export FLASK_ENV=development
 	export FLASK_APP=icehockeytracker
 
-## Database Dependecy Information & Setup 
+### Database Setup
+This project uses ***SQLite (version 3.40.1)*** as its database engine.
 
-	The database engine used is SQLite, version 3.40.1.
+Initialization and Population:
 
-### Database Setup Instructions : initilaization & population
-
-For IceHockeyTrackerAPI system, we using SQLite3 as our database. please find the below commands for initialization, populization with some random test data to check the integrity 
-between each database relations and models. 
+Populization with some random test data to check the integrity between each database relations and models. 
 
 
 Database Initilisation
