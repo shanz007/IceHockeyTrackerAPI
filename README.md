@@ -1,7 +1,7 @@
 # PWP Spring 2024
 
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/t/shanz007/IceHockeyTrackerAPI)
-![GitHub last commit](https://img.shields.io/github/last-commit/mobusshar/data-mining-project-msc-oulu-2024)
+![GitHub last commit](https://img.shields.io/github/last-commit/shanz007/IceHockeyTrackerAPI)
 ![GitHub top language](https://img.shields.io/github/languages/top/mobusshar/data-mining-project-msc-oulu-2024)
 ![GitHub language count](https://img.shields.io/github/languages/count/mobusshar/data-mining-project-msc-oulu-2024)
 ![GitHub License](https://img.shields.io/github/license/mobusshar/data-mining-project-msc-oulu-2024)
