@@ -38,14 +38,19 @@ Discussed the components or concepts of the ICEHOCKEYTRACKERAPI project with Iv√
 
 
 ## Meeting 2.
-* **DATE:**
-* **ASSISTANTS:**
+* **DATE:** 2024-02-15
+* **ASSISTANTS:** Mika Ojala
 
 ### Minutes
-*Summary of what was discussed during the meeting*
+*During the meeting held on 2024-02-15, Professor Mika Ojala reviewed the progress of the project, focusing on the DL2. Database Design and Implementation. The meeting included updates from previous meetings, and the professor provided feedback on the database plans.*
 
 ### Action points
-*List here the actions points discussed with assistants*
+Discussed the database design and implementation of the ICEHOCKEYTRACKERAPI project with Mika. Here is the key action points that was mentioned in the meeting.
+* Modify database fields as suggested by Mika.
+* Discuss and implement changes to the USERRANK table.
+* Enhance the features of the RANKSBASE table based on suggestions.
+* Maintain simplicity in the database tables to facilitate development.
+* Avoid excessive table complexity to streamline the development process.
 
 
 
