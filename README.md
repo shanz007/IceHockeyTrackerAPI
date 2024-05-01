@@ -20,7 +20,7 @@
 
 ### Overview
 
-The Ice Hockey Tracker API is a Python 3-based project leveraging Flask and Flask-SQLAlchemy among other libraries. The project dependencies are detailed in [requirements.txt](https://github.com/shanz007/IceHockeyTrackerAPI/blob/main/requirements.txt) at the root directory.
+The Ice Hockey Tracker API is a Python 3-based project leveraging Flask and Flask-SQLAlchemy among other libraries. The API was created with the goal of offering powerful monitoring capabilities for ice hockey-related data. It provides a diverse solution for handling many aspects of the sport, from individual statistics to match results. The project dependencies are detailed in [requirements.txt](https://github.com/shanz007/IceHockeyTrackerAPI/blob/main/requirements.txt) at the root directory.
 
 ### Getting Started
 
