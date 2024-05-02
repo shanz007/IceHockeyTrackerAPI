@@ -82,16 +82,16 @@ Discussed the database design and implementation of the ICEHOCKEYTRACKERAPI proj
 
 
 ## Midterm meeting
-* **DATE:**
-* **ASSISTANTS:**
+* **DATE:** 22/04/2024
+* **ASSISTANTS:** Mika Ojala
 
 ### Minutes
-*Summary of what was discussed during the meeting*
+*During the midterm meeting held on 22/04/2024 with Mika Ojala, we presented the progress of DL3: RESTful API implementation for the Ice Hockey Tracker project. We showcased the API implementations completed thus far and outlined our plans for future development.*
+*In our presentation, we highlighted the completion of three API implementations and provided insights into the functionalities and features of each. Additionally, we shared our intentions to develop a total of eight API implementations to fully realize the project's objectives. Considering the workload and the course deadline, he proposed that we change our approach in order to minimize the number of API implementations to a feasible level.*
 
 ### Action points
-*List here the actions points discussed with assistants*
-
-
+* Review the scope of API implementations and prioritize essential functionalities.
+* Adjust the project plan to align with the revised timeline and workload constraints.
 
 
 ## Final meeting
