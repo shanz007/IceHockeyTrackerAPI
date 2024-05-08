@@ -1,0 +1,21 @@
+responses:
+  '200':
+    content:
+      application/vnd.mason+json:
+        example:
+          '@controls':
+            icehoctrack:roles-all:
+              href: /api/roles/
+              method: GET
+              title: The collection of all roles
+            icehoctrack:users-all:
+              href: /api/users/
+              method: GET
+              title: The collection of all users
+            icehoctrack:teams-all:
+              href: /api/teams/
+              method: GET
+              title: The collection of all teams
+          '@namespaces':
+            icehoctrack:
+              name: /icehockeytracker/link-relations/

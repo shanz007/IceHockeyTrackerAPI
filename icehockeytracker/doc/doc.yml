@@ -1,0 +1,303 @@
+---
+swagger: 2.0
+openapi: 3.0.3
+servers:
+ - url: /api
+tags:
+  - name: "teams"
+    description: "team API"
+  - name: "team contract"
+    description: "team contract API"
+  - name: "matches"
+    description: "match API"
+  - name: "roles"
+    description: "role API"
+  - name: "users"
+    description: "user API"
+  - name: "matchfeedback"
+    description: "matchfeedback API"
+  - name: "rankbases"
+    description: "rankbase  API"
+  - name: "rankbases by role"
+    description: "rankbases by role API"
+  - name: "user list by team"
+    description: "user list by team API"
+  - name: "ranking list by team and role"
+    description: "ranking list by team and API"
+  - name: "matchfeedback list by user"
+    description: "matchfeedback list by user API"
+  - name: "team contract by user"
+    description: "team contract by user API"
+components:
+  parameters:
+    role_code:
+      description: Role's unique code
+      in: path
+      name: role_code
+      required: true
+      schema:
+        type: string
+    rank_base_code:
+      description: Rankbase's unique code
+      in: path
+      name: rank_base_code
+      required: true
+      schema:
+        type: string
+    user_id:
+      description: User's unique ID
+      in: path
+      name: user_id
+      required: true
+      schema:
+        type: integer
+    id:
+      description: User's user rank ID
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+    team_id:
+      description: Team's unique ID
+      in: path
+      name: team_id
+      required: true
+      schema:
+        type: integer
+    match_id:
+      description: Match's unique ID
+      in: path
+      name: match_id
+      required: true
+      schema:
+        type: integer
+    id:
+      description: Match Feedback ID
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  schemas:
+    Role:
+      properties:
+        role_code:
+          description: Role's unique code
+          type: string
+        role_name:
+          description: Role's unique name
+          type: string
+        role_description:
+          description:  Role's description
+          type: string
+      required:
+        - role_code
+        - role_name
+        - role_description
+      type: object
+    Rankbase:
+      properties:
+        role_id:
+          description: Role's ID
+          type: string
+        rank_base_code:
+          description: Rankbase's unique code
+          type: string
+        rank_score:
+          description:  Rank's Score
+          type: string
+      required:
+        - rank_base_code
+        - rank_score
+      type: object
+    User:
+      properties:
+        full_name:
+          description: User's full_name
+          type: string
+        nick_name:
+          description: User's nick name
+          type: string
+        email:
+          description: User's email
+          type: string
+        date_of_birth:
+          description: User's date of birth  in format yyyy-mm-dd
+          format: date
+          type: string
+        ssn:
+          description: User's social security number
+          type: string
+        password:
+          description: User's password
+          type: string
+        role_id:
+          description: User's role id
+          type: integer
+        rank:
+          description:  User's rank
+          type: integer  
+        required:
+        - full_name
+        - nick_name
+        - email
+        - date_of_birth
+        - ssn
+        - password
+        - role_id
+        - rank
+      type: object
+    UserRank:
+      properties:
+        user_id:
+          description: User's ID
+          type: integer
+        rank_base_id:
+          description: User Rank Base ID
+          type: integer
+        ranker_comment:
+          description:  Ranker's comment
+          type: string
+        ranker_user_id:
+          description:  Ranker's User ID"
+          type: integer
+        ranked_added_date:
+          description:  Ranker's ranking added date in format yyyy-mm-dd"
+          format: date
+          type: string
+        required:
+        - user_id
+        - rank_base_id
+        - ranker_comment
+        - ranker_user_id
+        - ranked_added_date
+      type: object
+    Team:
+      properties:
+        team_id:
+          description: Team's ID
+          type: integer
+        team_name:
+          description: Team's unique name
+          type: string
+        team_description:
+          description:  Team's description
+          type: string
+        team_coach_user_id:
+          description:  Team Coacher's user ID
+          type: integer
+      required:
+        - team_id
+        - team_name
+        - team_description
+        - team_coach_user_id
+      type: object
+    TeamUser:
+      properties:
+        team_id:
+          description: Team's ID
+          type: integer
+        user_id:
+          description: User's ID
+          type: integer
+        contract_start_date:
+          description: User's Contract start date in format yyyy-mm-dd
+          format: date
+          type: string
+        contract_end_date:
+          description: User's Contract end date in format yyyy-mm-dd
+          format: date
+          type: string
+      required:
+        - team_id
+        - user_id
+        - contract_start_date
+        - contract_end_date
+      type: object
+    Match:
+      properties:
+        match_id:
+          description: Match ID
+          type: integer
+        host_team_id:
+          description: Host Team ID
+          type: integer
+        rival_team_id:
+          description: Rival Team ID
+          format: date
+          type: integer
+        winner_team_id:
+          description: Winner Team ID
+          format: date
+          type: integer
+        match_result:
+          description: Match Result
+          format: date
+          type: string 
+        match_level:
+          description: Match Level
+          format: date
+          type: string
+        match_level:
+          description: Match Date
+          format: date
+          type: string
+          format: date
+        required:
+        - match_id
+        - host_team_id
+        - rival_team_id
+        - winner_team_id
+        - match_result
+        - match_level
+        - match_date
+      type: object
+    MatchFeedback:
+      properties:
+        match_id:
+          description: Match ID
+          type: integer
+        ranker_user_id:
+          description: Ranker's User ID
+          type: integer
+        ranker_comment:
+          description: Ranker's comment
+          type: string
+        ranked_added_date:
+          description: Ranker's comment addeded_date  in format yyyy-mm-dd
+          format: date
+          type: string
+      required:
+        - match_id
+        - ranker_user_id
+        - ranker_comment
+        - ranked_added_date
+      type: object
+  securitySchemes:
+    adminKey:
+      type: apiKey
+      name: IceHockeyTracker-Api-Key
+      in: header
+    assessmentKey:
+      type: apiKey
+      name: IceHockeyTracker-Api-Key
+      in: header
+info:
+  title: IceHockeyTracker API
+  version: 0.0.1
+  description: |
+    This API System is compiled as a part of coursework for the Programmable Web Project course
+    of spring 2024. A IceHockeyTracker API system that stores player,coach,manager information and their teams,matches and rankings.
+  termsOfService: http://totally.not.placehold.er/
+  contact:
+    url: http://totally.not.placehold.er/
+    email: pwp-course@lists.oulu.fi
+    name: PWP Staff List
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+    
+  servers:
+    - url: 'http://localhost:5000'
+      description: The production server
