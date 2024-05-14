@@ -16,6 +16,26 @@ responses:
               href: /api/teams/
               method: GET
               title: The collection of all teams
-          '@namespaces':
+            icehoctrack:rankbase-all:
+              href: /api/rankbases/
+              method: GET
+              title: The collection of all RankBase
+            icehoctrack:userrankings-all:
+              href: /api/userrankings/
+              method: GET
+              title: The collection of all User Rankings
+            icehoctrack:teamuser-all:
+              href: /api/teamuser/
+              method: GET
+              title: The collection of all Team Users
+            icehoctrack:matches-all:
+              href: /api/matches/
+              method: GET
+              title: The collection of all Matches
+            icehoctrack:matchfeedback-all:
+              href: /api/matchfeedbacks/
+              method: GET
+              title: The collection of all Team Match Feedbacks
+            '@namespaces':
             icehoctrack:
               name: /icehockeytracker/link-relations/

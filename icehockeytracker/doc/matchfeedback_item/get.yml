@@ -1,0 +1,83 @@
+description: Get details of one matchfeedback
+parameters:
+- $ref: '#/components/parameters/matchfeedback_id'
+tags: 
+- Matchfeedbacks
+security:
+- IceHockeyTrackerAdminKey: [admin]
+responses:
+'200':
+  description: List of Matchfeedback
+  content:
+    application/vnd.mason+json:
+      example:
+          match_id: 1
+          ranker_user_id: 10
+          ranker_comment: Cocach A : Need extra defer
+          ranked_added_date: "2018-11-13T20:20:39+00:00"
+        "@namespaces":
+          icehoctrack:
+            name: "/icehockeytracker/link-relations/"
+        "@controls":
+          self:
+            href: "/api/matchfeedbacks/PLA/"
+          profile:
+            href: "/profiles/matchfeedback_item/"
+          collection:
+            href: "/api/matchfeedbacks/"
+          icehoctrack:delete-matchfeedback:
+            method: DELETE
+            title: Delete this matchfeedback
+            href: "/api/matchfeedbacks/1/"
+          edit:
+            method: PUT
+            encoding: json
+            title: Edit this matchfeedback
+            schema:
+              type: object
+              required:
+              - match_id
+              - ranker_user_id
+              - ranker_comment
+              - ranked_added_date
+              properties:
+                match_id:
+                  description: Match id 
+                  type: string
+                ranker_user_id:
+                  description: Ranker's user id
+                  type: string
+                ranker_comment:
+                  description: Ranker's comment
+                  type: string
+                ranked_added_date:
+                  description: Ranker's added dataetime 
+                  type: string
+                  format: DateTime 
+            href: "/api/matchfeedbacks/1/"
+'404':
+  description: The Matchfeedback was not found
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/matchfeedbacks/15/"
+        "@error":
+          "@message": Not found
+          "@messages":
+          - Role not found
+        "@controls":
+          profile:
+            href: "/profiles/error/"
+'403':
+  description: Authentication error
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/matchfeedbacks/15/"
+        "@error":
+          "@message": Forbidden
+          "@messages":
+          - Authentication error
+        "@controls":
+          profile:
+            href: "/profiles/error/"

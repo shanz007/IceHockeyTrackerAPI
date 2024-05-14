@@ -1,0 +1,92 @@
+description: Get the list of User Roles
+security:
+- IceHockeyTrackerAdminKey: [admin]
+responses:
+'200':
+  description: IceHockeyTrackerSystem Roles
+  content:
+    application/vnd.mason+json:
+      example:
+        "@namespaces":
+          icehoctrack:
+            name: "/icehockeytracker/link-relations/"
+        "@controls":
+          self:
+            href: "/api/roles/"
+          icehoctrack:add-role:
+            method: POST
+            encoding: json
+            title: Add a new role
+            schema:
+              type: object
+              required:
+              - role_name
+              - role_code
+              - role_description
+              properties:
+                role_name:
+                  description: Role's unique name
+                  type: string
+                role_code:
+                  description: Role's unique code
+                  type: string
+                role_description:
+                  description: Role's description
+                  type: string
+            href: "/api/roles/"
+          icehoctrack:user-all:
+            method: GET
+            title: get users
+            href: "/api/users/"
+        items:
+        - role_id: 1
+          role_name: Team Player
+          role_code: PLA
+          role_description: Team Player
+          "@controls":
+            self:
+              href: "/api/roles/1/"
+            profile:
+              href: "/profiles/role_collection/"
+        - role_id: 2
+          role_name: Team Coach
+          role_code: COA
+          role_description: Team Coach
+          "@controls":
+            self:
+              href: "/api/roles/2/"
+            profile:
+              href: "/profiles/role_collection/"
+        - role_id: 3
+          role_name: Manager
+          role_code: MAN
+          role_description: League Manager
+          "@controls":
+            self:
+              href: "/api/roles/3/"
+            profile:
+              href: "/profiles/role_collection/"
+        - role_id: 4
+          role_name: Administrator
+          role_code: ADM
+          role_description: System Administrator
+          "@controls":
+            self:
+              href: "/api/roles/4/"
+            profile:
+              href: "/profiles/role_collection/"
+
+'403':
+  description: Authentication error
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/roles/"
+        "@error":
+          "@message": Forbidden
+          "@messages":
+          - Authentication error
+        "@controls":
+          profile:
+            href: "/profiles/error/"
+

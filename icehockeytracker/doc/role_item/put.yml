@@ -1,0 +1,82 @@
+description: Replace role's basic data with new values
+tags: 
+- Roles
+security:
+- IceHockeyTrackerAdminKey: [admin]
+requestBody:
+description: JSON document that contains new basic data for the role
+content:
+  application/vnd.mason+json:
+    schema:
+      $ref: '#/components/schemas/Role'
+    example:
+      name: role test edited
+      code: TEST
+      description: new test role to edit
+responses:
+'204':
+  description: The role's attributes were updated successfully
+'400':
+  description: The request body was not valid
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/roles/6/"
+        "@error":
+          "@message": Bad request
+          "@messages": Bad request
+        "@controls":
+          profile:
+            href: "/profiles/error/"
+'404':
+  description: The role was not found
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/roles/6/"
+        "@error":
+          "@message": Not found
+          "@messages":
+          - Role not found
+        "@controls":
+          profile:
+            href: "/profiles/error/"
+'409':
+  description: A role with the same name already exists
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/roles/6/"
+        "@error":
+          "@message": Conflict
+          "@messages":
+          - Role exist
+        "@controls":
+          profile:
+            href: "/profiles/error/"
+'415':
+  description: Wrong media type was used
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/roles/6/"
+        "@error":
+          "@message": Unsupported media type
+          "@messages":
+          - unsupported media type
+        "@controls":
+          profile:
+            href: "/profiles/error/"
+'403':
+  description: Authentication error
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/roles/PLAd/"
+        "@error":
+          "@message": Forbidden
+          "@messages":
+          - Authentication error
+        "@controls":
+          profile:
+            href: "/profiles/error/"

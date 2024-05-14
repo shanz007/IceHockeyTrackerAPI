@@ -1,0 +1,78 @@
+description: Get details of one role
+parameters:
+- $ref: '#/components/parameters/role_id'
+tags: 
+- Roles
+security:
+- IceHockeyTrackerAdminKey: [admin]
+responses:
+'200':
+  description: List of Roles
+  content:
+    application/vnd.mason+json:
+      example:
+          role_id: 1
+          role_name: Team Player
+          role_code: PLA
+          role_description: Team Player 
+        "@namespaces":
+          icehoctrack:
+            name: "/icehockeytracker/link-relations/"
+        "@controls":
+          self:
+            href: "/api/roles/1/"
+          profile:
+            href: "/profiles/role_item/"
+          collection:
+            href: "/api/roles/"
+          icehoctrack:delete-role:
+            method: DELETE
+            title: Delete this role
+            href: "/api/roles/1/"
+          edit:
+            method: PUT
+            encoding: json
+            title: Edit this role
+            schema:
+              type: object
+              required:
+              - role_name
+              - role_code
+              - role_description
+              properties:
+                name:
+                  description: Role's unique name
+                  type: string
+                code:
+                  description: Role's unique code
+                  type: string
+                description:
+                  description: Role's description
+                  type: string
+            href: "/api/roles/1/"
+'404':
+  description: The role was not found
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/roles/6/"
+        "@error":
+          "@message": Not found
+          "@messages":
+          - Role not found
+        "@controls":
+          profile:
+            href: "/profiles/error/"
+'403':
+  description: Authentication error
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/roles/6/"
+        "@error":
+          "@message": Forbidden
+          "@messages":
+          - Authentication error
+        "@controls":
+          profile:
+            href: "/profiles/error/"

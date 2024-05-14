@@ -1,0 +1,74 @@
+description: Get the list of Rankbases 
+security:
+- IceHockeyTrackerAdminKey: [admin]
+responses:
+'200':
+  description: IceHockeyTrackerSystem Rankbases
+  content:
+    application/vnd.mason+json:
+      example:
+        "@namespaces":
+          icehoctrack:
+            name: "/icehockeytracker/link-relations/"
+        "@controls":
+          self:
+            href: "/api/rankbases/"
+          icehoctrack:add-role:
+            method: POST
+            encoding: json
+            title: Add a new Rankbase
+            schema:
+              type: object
+              required:
+              - role_id
+              - rank_base_description
+              - rank_score
+              properties:
+                role_id:
+                  description: Role ID
+                  type: string
+                rank_base_description:
+                  description: The rank base description 
+                  type: string
+                rank_score:
+                  description: The rank score
+                  type: string
+            href: "/api/rankbases/"
+          icehoctrack:user-all:
+            method: GET
+            title: get users
+            href: "/api/users/"
+        items:
+        - rank_base_id: 1
+          rank_score: 0
+          role_id: 1
+          rank_base_description: PLA-PASSING-WEAK
+          "@controls":
+            self:
+              href: "/api/rankbases/1/roles/1"
+            profile:
+              href: "/profiles/rankbases_collection/"
+        - rank_base_id: 1
+          rank_score: 2
+          role_id: 1
+          rank_base_description: PLA-PASSING-LOW
+          "@controls":
+            self:
+              href: "/api/rankbases/2/roles/1"
+            profile:
+              href: "/profiles/rankbases_collection/"
+
+'403':
+  description: Authentication error
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/rankbases/"
+        "@error":
+          "@message": Forbidden
+          "@messages":
+          - Authentication error
+        "@controls":
+          profile:
+            href: "/profiles/error/"
+

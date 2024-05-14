@@ -1,0 +1,83 @@
+description: Get the list of User Matches
+security:
+- IceHockeyTrackerAdminKey: [admin]
+responses:
+'200':
+  description: IceHockeyTrackerSystem Matches
+  content:
+    application/vnd.mason+json:
+      example:
+        "@namespaces":
+          icehoctrack:
+            name: "/icehockeytracker/link-relations/"
+        "@controls":
+          self:
+            href: "/api/matches/"
+          icehoctrack:add-match:
+            method: POST
+            encoding: json
+            title: Add a new match
+            schema:
+              type: object
+              required:
+              - host_team_id
+              - rival_team_id
+              - winner_team_id
+              - match_result
+              - match_level
+              - match_date
+              properties:
+                host_team_id:
+                  description: Host's team id
+                  type: string
+                rival_team_id:
+                  description: Rival's team id
+                  type: string
+                winner_team_id:
+                  description: Winner's team id
+                  type: string
+                match_result:
+                  description: Match result
+                  type: string
+                match_level: 
+                  description: Match level
+                  type: string
+                match_date: 
+                  description: Match date
+                  type: string
+                  format: Date
+            href: "/api/matches/"
+          icehoctrack:team-all:
+            method: GET
+            title: get teams
+            href: "/api/teams/"
+        items:
+        - match_id: 1
+          host_team_id: 1
+          rival_team_id: 2
+          winner_team_id: 2
+          match_result: decided
+          match_level: semifinal
+          match_date: 
+          "@controls":
+            self:
+              href: "/api/match/1/"
+            profile:
+              href: "/profiles/match_collection/"
+ 
+  
+
+'403':
+  description: Authentication error
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/roles/"
+        "@error":
+          "@message": Forbidden
+          "@messages":
+          - Authentication error
+        "@controls":
+          profile:
+            href: "/profiles/error/"
+

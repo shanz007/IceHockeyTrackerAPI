@@ -1,0 +1,88 @@
+description: Replace users's basic data with new values
+tags: 
+- Users
+security:
+- IceHockeyTrackerAdminKey: [user]
+requestBody:
+description: JSON document that contains new basic data for the user
+content:
+  application/vnd.mason+json:
+    schema:
+      $ref: '#/components/schemas/User'
+    example:
+      user_id: 1
+      full_name: Player A Full Name
+      nick_name: PLA
+      email: playera@gmail.com
+      date_of_birth: '1982-04-15T20:20:39+00:00'
+      ssn: 150482-6176
+      password: $2b$12$4VNKeSi.IDZqz7t/DvyrM.8v0.kwHwU9ZVqZcQwZX42Zy0E.iAS3C
+      rank: 0
+responses:
+'204':
+  description: The user's attributes were updated successfully
+'400':
+  description: The request body was not valid
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/users/E01x/"
+        "@error":
+          "@message": Bad request
+          "@messages":
+          - bad request
+        "@controls":
+          profile:
+            href: "/profiles/error/"
+'404':
+  description: The user was not found
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/users/E01x/"
+        "@error":
+          "@message": Not found
+          "@messages":
+          - user not found
+        "@controls":
+          profile:
+            href: "/profiles/error/"
+'409':
+  description: A user with the same name already exists
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/users/E01x/"
+        "@error":
+          "@message": Conflict
+          "@messages":
+          - user exist
+        "@controls":
+          profile:
+            href: "/profiles/error/"
+'415':
+  description: Wrong media type was used
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/users/E01x/"
+        "@error":
+          "@message": Unsupported media type
+          "@messages":
+          - unsupported media type
+        "@controls":
+          profile:
+            href: "/profiles/error/"
+'403':
+  description: Authentication error
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/users/E01x/"
+        "@error":
+          "@message": Forbidden
+          "@messages":
+          - Authentication error
+        "@controls":
+          profile:
+            href: "/profiles/error/"

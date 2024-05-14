@@ -1,32 +1,34 @@
 ---
-swagger: 2.0
 openapi: 3.0.3
 servers:
- - url: /api
+ - url: 'http://localhost:5000'
+   description: The Dev server
 tags:
-  - name: "teams"
-    description: "team API"
-  - name: "team contract"
-    description: "team contract API"
-  - name: "matches"
-    description: "match API"
-  - name: "roles"
-    description: "role API"
-  - name: "users"
-    description: "user API"
-  - name: "matchfeedback"
-    description: "matchfeedback API"
-  - name: "rankbases"
-    description: "rankbase  API"
-  - name: "rankbases by role"
-    description: "rankbases by role API"
-  - name: "user list by team"
+  - name: "Roles"
+    description: "Role API"
+  - name: "Users"
+    description: "User API"
+  - name: "Teams"
+    description: "Team API"
+  - name: "TeamUser"
+    description: "TeamUser API"
+  - name: "Matches"
+    description: "Matches API"
+  - name: "Matchfeedbacks"
+    description: "Matchfeedbacks API"
+  - name: "Rankbases"
+    description: "Rankbases API"
+  - name: "Userranks"
+    description: "Userranks API"
+  - name: "User by Role"
+    description: "user by role API"
+  - name: "User list by team"
     description: "user list by team API"
-  - name: "ranking list by team and role"
+  - name: "Ranking list by team and role"
     description: "ranking list by team and API"
-  - name: "matchfeedback list by user"
+  - name: "Matchfeedback list by user"
     description: "matchfeedback list by user API"
-  - name: "team contract by user"
+  - name: "Team contract by user"
     description: "team contract by user API"
 components:
   parameters:
@@ -72,7 +74,7 @@ components:
       required: true
       schema:
         type: integer
-    id:
+    matchfeedback_id:
       description: Match Feedback ID
       in: path
       name: id
@@ -85,11 +87,11 @@ components:
         role_code:
           description: Role's unique code
           type: string
+        role_description:
+          description: Role's description
+          type: string
         role_name:
           description: Role's unique name
-          type: string
-        role_description:
-          description:  Role's description
           type: string
       required:
         - role_code
@@ -100,21 +102,22 @@ components:
       properties:
         role_id:
           description: Role's ID
-          type: string
+          type: integer
         rank_base_code:
           description: Rankbase's unique code
           type: string
         rank_score:
           description:  Rank's Score
-          type: string
+          type: integer
       required:
+        - role_id
         - rank_base_code
         - rank_score
       type: object
     User:
       properties:
         full_name:
-          description: User's full_name
+          description: User's full name
           type: string
         nick_name:
           description: User's nick name
@@ -123,7 +126,7 @@ components:
           description: User's email
           type: string
         date_of_birth:
-          description: User's date of birth  in format yyyy-mm-dd
+          description: User's date of birth  in yyyy-mm-dd
           format: date
           type: string
         ssn:
@@ -138,7 +141,7 @@ components:
         rank:
           description:  User's rank
           type: integer  
-        required:
+      required:
         - full_name
         - nick_name
         - email
@@ -166,7 +169,7 @@ components:
           description:  Ranker's ranking added date in format yyyy-mm-dd"
           format: date
           type: string
-        required:
+      required:
         - user_id
         - rank_base_id
         - ranker_comment
@@ -225,26 +228,21 @@ components:
           type: integer
         rival_team_id:
           description: Rival Team ID
-          format: date
           type: integer
         winner_team_id:
           description: Winner Team ID
-          format: date
           type: integer
         match_result:
           description: Match Result
-          format: date
           type: string 
         match_level:
           description: Match Level
-          format: date
           type: string
-        match_level:
+        match_date:
           description: Match Date
           format: date
           type: string
-          format: date
-        required:
+      required:
         - match_id
         - host_team_id
         - rival_team_id
@@ -275,7 +273,7 @@ components:
         - ranked_added_date
       type: object
   securitySchemes:
-    adminKey:
+    IceHockeyTrackerAdminKey:
       type: apiKey
       name: IceHockeyTracker-Api-Key
       in: header
@@ -297,7 +295,3 @@ info:
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
-    
-  servers:
-    - url: 'http://localhost:5000'
-      description: The production server

@@ -1,0 +1,147 @@
+description: Get details of one user
+parameters:
+  - $ref: '#/components/parameters/user'
+tags: 
+- Users
+security:
+- IceHockeyTrackerAdminKey: [user]
+responses:
+'200':
+  description: data of one user
+  content:
+    application/vnd.mason+json:
+      example:
+        user_id: 1
+        full_name: Player A Full Name
+        nick_name: PLA
+        email: playera@gmail.com
+        date_of_birth: '1982-04-15T20:20:39+00:00'
+        ssn: 150482-6176
+        password: $2b$12$4VNKeSi.IDZqz7t/DvyrM.8v0.kwHwU9ZVqZcQwZX42Zy0E.iAS3C
+        role_id: 1
+        rank: 0
+        "@namespaces":
+          icehoctrack:
+            name: "/icehockeytracker/link-relations/"
+        "@controls":
+          self:
+            href: "/api/users/1/"
+          collection:
+            href: "/api/users/"
+          icehoctrack:by-user-role:
+            method: GET
+            title: get users by role
+            href: "/api/roles/1/users/"
+          icehoctrack:role:
+            method: GET
+            title: get role
+            href: "/api/roles/1/"
+          icehoctrack:userrankings:
+            method: GET
+            title: get user user rankings
+            href: "/api/users/1/userrankings/"
+          icehoctrack:delete-user:
+            method: DELETE
+            title: Delete this user
+            href: "/api/user/1/"
+          edit:
+            method: PUT
+            encoding: json
+            title: Edit this user
+            schema:
+              type: object
+              required:
+              - full_name
+              - nick_name
+              - email
+              - date_of_birth
+              - ssn
+              - password
+              - role_id
+              - rank
+              properties:
+                user_id:
+                  description: User's unique id
+                  type: string
+                full_name:
+                  description: User's full name
+                  type: string
+                nick_name:
+                  description: User's nickname
+                  type: string
+                email:
+                  description: User's email
+                  type: string
+                password:
+                  description: User's password
+                  type: string
+                ssn:
+                  description: User's ssn
+                  type: string
+                date_of_birth:
+                  description: User's date of birth
+                  type: string
+                  format: date-time
+                role_id:
+                  description: User's role id
+                  type: string
+                rank:
+                  description: User's rank 
+                  type: string
+            href: "/api/users/1/"
+          icehoctrack:add-userrank:
+            method: POST
+            encoding: json
+            title: Add a new ranking
+            schema:
+              type: object
+              required:
+              - user_id
+              - rank_base_id
+              - ranker_comment
+              - ranker_user_id
+              - ranked_added_date
+              properties:
+                user_id:
+                  description: User id
+                  type: string
+                rank_base_id:
+                  description: The rank base id
+                  type: string
+                ranker_comment:
+                  description: The ranker's comment
+                  type: string
+                ranker_user_id:
+                  description: The ranker's user id
+                  type: string
+                ranked_added_date:
+                  description: The ranked added date
+                  type: string
+                  format: Date
+            href: "/api/userranks/"       
+'404':
+  description: The user was not found
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/user/18/"
+        "@error":
+          "@message": Not found
+          "@messages":
+          - u not found
+        "@controls":
+          profile:
+            href: "/profiles/error/"
+'403':
+  description: Authentication error
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/user/18/"
+        "@error":
+          "@message": Forbidden
+          "@messages":
+          - Authentication error
+        "@controls":
+          profile:
+            href: "/profiles/error/"

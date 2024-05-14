@@ -1,0 +1,83 @@
+description: Replace Mtchfeedback's basic data with new values
+tags: 
+- roles
+security:
+- IceHockeyTrackerAdminKey: [admin]
+requestBody:
+description: JSON document that contains new basic data for the matchfeedback
+content:
+  application/vnd.mason+json:
+    schema:
+      $ref: '#/components/schemas/Matchfeedback'
+    example:
+      match_id: 1
+      ranker_user_id: 10
+      ranker_comment: Cocach A : Need extra defer
+      ranked_added_date: "2018-11-13T20:20:39+00:00"
+responses:
+'204':
+  description: The matchfeedback's attributes were updated successfully
+'400':
+  description: The request body was not valid
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/matchfeedbacks/15/"
+        "@error":
+          "@message": Bad request
+          "@messages": Bad request
+        "@controls":
+          profile:
+            href: "/profiles/error/"
+'404':
+  description: The matchfeedback was not found
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/matchfeedbacks/15/"
+        "@error":
+          "@message": Not found
+          "@messages":
+          - Role not found
+        "@controls":
+          profile:
+            href: "/profiles/error/"
+'409':
+  description: A matchfeedback with the same name already exists
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/matchfeedbacks/15/"
+        "@error":
+          "@message": Conflict
+          "@messages":
+          - Matchfeedback exist
+        "@controls":
+          profile:
+            href: "/profiles/error/"
+'415':
+  description: Wrong media type was used
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/matchfeedbacks/15/"
+        "@error":
+          "@message": Unsupported media type
+          "@messages":
+          - unsupported media type
+        "@controls":
+          profile:
+            href: "/profiles/error/"
+'403':
+  description: Authentication error
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/matchfeedbacks/15/"
+        "@error":
+          "@message": Forbidden
+          "@messages":
+          - Authentication error
+        "@controls":
+          profile:
+            href: "/profiles/error/"

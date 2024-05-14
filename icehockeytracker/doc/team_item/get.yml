@@ -1,0 +1,77 @@
+description: Get details of one Team
+parameters:
+- $ref: '#/components/parameters/role_code'
+tags: 
+- Roles
+security:
+- IceHockeyTrackerAdminKey: [admin]
+responses:
+'200':
+  description: List of Teams
+  content:
+    application/vnd.mason+json:
+      example:
+          team_name: Ice Skaters
+          team_description: Ice Skaters description
+          team_coach_user_id: 10
+        "@namespaces":
+          icehoctrack:
+            name: "/icehockeytracker/link-relations/"
+        "@controls":
+          self:
+            href: "/api/teams/1/"
+          profile:
+            href: "/profiles/team_item/"
+          collection:
+            href: "/api/teams/"
+          icehoctrack:delete-team:
+            method: DELETE
+            title: Delete this team
+            href: "/api/teams/1/"
+          edit:
+            method: PUT
+            encoding: json
+            title: Edit this team
+            schema:
+              type: object
+              required:
+              - team_name
+              - team_description
+              - team_coach_user_id
+              properties:
+                team_name:
+                  description: Team's unique name
+                  type: string
+                team_coach_user_id:
+                  description: Team's coach user id 
+                  type: string
+                team_description:
+                  description: Team's description
+                  type: string
+            href: "/api/teams/1/"
+'404':
+  description: The team was not found
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/teams/13/"
+        "@error":
+          "@message": Not found
+          "@messages":
+          - Team not found
+        "@controls":
+          profile:
+            href: "/profiles/error/"
+'403':
+  description: Authentication error
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/teams/13/"
+        "@error":
+          "@message": Forbidden
+          "@messages":
+          - Authentication error
+        "@controls":
+          profile:
+            href: "/profiles/error/"

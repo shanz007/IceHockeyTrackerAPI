@@ -1,0 +1,70 @@
+description: Create a new Team
+security:
+- IceHockeyTrackerAdminKey: [admin]
+requestBody:
+description: JSON document that contains basic data for a new Team
+content:
+  application/vnd.mason+json:
+    schema:
+      $ref: '#/components/schemas/Team'
+    example:
+      team_name: Test Teams
+      team_description: TES
+      team_coach_user_id: 10
+responses:
+'201':
+  description: The Team was created successfully
+  headers:
+    Location:
+      schema:
+        type: string
+      description: Location URL for created team
+'400':
+  description: The request body was not valid
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: /api/teams/
+        "@error": 
+          "@message": "Invalid request"
+          "@messages":
+            - The request body was not valid
+          "@controls":
+            profile:
+              href: /profiles/error/
+'409':
+  description: A teams with the same code already exists
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: /api/teams/
+        "@error": 
+          "@message": Conflict
+          "@messages": Team exists
+          "@controls":
+            profile:
+              href: /profiles/error/
+'415':
+  description: Wrong media type was used
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: /api/teams/
+        "@error": 
+          "@message": Unsupported media type
+          "@messages": Unsupported media type
+          "@controls":
+            profile:
+              href: /profiles/error/
+'403':
+  description: Authentication error
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: /api/teams/
+        "@error": 
+          "@message": Forbidden
+          "@messages": Authentication error
+          "@controls":
+            profile:
+              href: /profiles/error/

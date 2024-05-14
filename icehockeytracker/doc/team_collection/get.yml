@@ -1,0 +1,84 @@
+description: Get the list of Teams
+security:
+- IceHockeyTrackerAdminKey: [admin]
+responses:
+'200':
+  description: IceHockeyTrackerSystem Teams
+  content:
+    application/vnd.mason+json:
+      example:
+        "@namespaces":
+          icehoctrack:
+            name: "/icehockeytracker/link-relations/"
+        "@controls":
+          self:
+            href: "/api/teams/"
+          icehoctrack:add-team:
+            method: POST
+            encoding: json
+            title: Add a new team
+            schema:
+              type: object
+              required:
+              - team_name
+              - team_description
+              - team_coach_user_id
+              properties:
+                team_name:
+                  description: Team's unique name
+                  type: string
+                team_coach_user_id:
+                  description: Team's coach user id 
+                  type: string
+                team_description:
+                  description: Team's description
+                  type: string
+            href: "/api/teams/"
+          icehoctrack:user-all:
+            method: GET
+            title: get users
+            href: "/api/users/"
+        items:
+        - team_id: 1
+          team_name: Ice Skaters
+          team_description: Ice Skaters description
+          team_coach_user_id: 10
+          "@controls":
+            self:
+              href: "/api/teams/1/"
+            profile:
+              href: "/profiles/team_collection/"
+       -  team_id: 2
+          team_name: Winter warriors
+          team_description: Winter warriors description
+          team_coach_user_id: 11
+          "@controls":
+            self:
+              href: "/api/teams/2/"
+            profile:
+              href: "/profiles/team_collection/"
+       -  team_id: 3
+          team_name: Huskies
+          team_description: Huskies description
+          team_coach_user_id: 12
+          "@controls":
+            self:
+              href: "/api/teams/3/"
+            profile:
+              href: "/profiles/team_collection/"
+  
+
+'403':
+  description: Authentication error
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/teams/"
+        "@error":
+          "@message": Forbidden
+          "@messages":
+          - Authentication error
+        "@controls":
+          profile:
+            href: "/profiles/error/"
+

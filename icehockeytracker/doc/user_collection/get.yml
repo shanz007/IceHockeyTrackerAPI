@@ -1,0 +1,46 @@
+description: Get the list of all system users
+tags: 
+  - Users
+security:
+- IceHockeyTrackerAdminKey: [admin]
+responses:
+'200':
+  description: List of users
+  content:
+    application/vnd.mason+json:
+      example:
+        "@namespaces":
+          icehoctrack:
+            name: "/icehockeytracker/link-relations/"
+        items:
+        - user_id: 1
+          full_name: Player A Full Name
+          nick_name: PLA
+          email: playera@gmail.com
+          date_of_birth: '1982-04-15T20:20:39+00:00'
+          ssn: 150482-6176
+          password: $2b$12$4VNKeSi.IDZqz7t/DvyrM.8v0.kwHwU9ZVqZcQwZX42Zy0E.iAS3C
+          role_id: 1
+          rank: 0
+          "@controls":
+            self:
+              href: "/api/users/1/"
+            profile:
+              href: "/profiles/users_collection/"
+        - user_id: 2
+          full_name: Player B Full Name
+          nick_name: PLB
+          email: playerb@gmail.com
+          date_of_birth: '1987-04-15T20:20:39+00:00'
+          ssn: 150487-6176
+          password: $2b$12$H3OGGS7T44YF/N3nUrNphes2iEi0VdW8lu1XG5a7iiGjTQC9rXhsG
+          role_id: 1
+          rank: 0
+          "@controls":
+            self:
+              href: "/api/users/2/"
+            profile:
+              href: "/profiles/users_collection/"
+        "@controls":
+          self:
+            href: "/api/users/"

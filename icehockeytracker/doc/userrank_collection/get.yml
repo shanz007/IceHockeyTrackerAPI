@@ -1,0 +1,74 @@
+description: Get the list of Userranks
+security:
+- IceHockeyTrackerAdminKey: [admin]
+responses:
+'200':
+  description: IceHockeyTrackerSystem Userranks
+  content:
+    application/vnd.mason+json:
+      example:
+        "@namespaces":
+          icehoctrack:
+            name: "/icehockeytracker/link-relations/"
+        "@controls":
+          self:
+            href: "/api/userranks/"
+          icehoctrack:add-userrank:
+            method: POST
+            encoding: json
+            title: Add a new userrank
+            schema:
+              type: object
+              required:
+              - user_id
+              - rank_base_id
+              - ranker_comment
+              - ranker_user_id
+              - ranked_added_date
+              properties:
+                user_id:
+                  description: User id
+                  type: string
+                rank_base_id:
+                  description: The rank_base_id
+                  type: string
+                ranker_comment:
+                  description: The ranker's comment
+                  type: string
+                ranker_user_id:
+                  description: The ranker's user id
+                  type: string
+                ranked_added_date:
+                  description: The ranked added date
+                  type: string
+                  format: Date
+            href: "/api/userranks/"
+          icehoctrack:user-all:
+            method: GET
+            title: get users
+            href: "/api/users/"
+        items:
+        - user_id: 1
+          rank_base_id: 1
+          ranker_comment: System Administrator
+          ranker_user_id: 10
+          ranked_added_date: System Administrator
+          "@controls":
+            self:
+              href: "/api/userranks/1/"
+            profile:
+              href: "/profiles/userrank_collection/"
+'403':
+  description: Authentication error
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/userranks/"
+        "@error":
+          "@message": Forbidden
+          "@messages":
+          - Authentication error
+        "@controls":
+          profile:
+            href: "/profiles/error/"
+

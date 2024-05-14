@@ -1,0 +1,94 @@
+description: Get details of one match
+parameters:
+- $ref: '#/components/parameters/match'
+tags: 
+- Matches
+security:
+- IceHockeyTrackerAdminKey: [admin]
+responses:
+'200':
+  description: List of Matches
+  content:
+    application/vnd.mason+json:
+      example:
+          match_id: Match ID
+          host_team_id: host team id
+          rival_team_id: rival team id
+          winner_team_id: winner team id
+          match_result: match result
+          match_level: match level
+          match_date: match date
+        "@namespaces":
+          icehoctrack:
+            name: "/icehockeytracker/link-relations/"
+        "@controls":
+          self:
+            href: "/api/matches/15/"
+          profile:
+            href: "/profiles/match_item/"
+          collection:
+            href: "/api/matches/"
+          icehoctrack:delete-match:
+            method: DELETE
+            title: Delete this match
+            href: "/api/matches/15/"
+          edit:
+            method: PUT
+            encoding: json
+            title: Edit this match
+            schema:
+              type: object
+              required:
+              - host_team_id
+              - rival_team_id
+              - winner_team_id
+              - match_result
+              - match_level
+              - match_date
+              properties:
+                host_team_id:
+                  description: Host's team id
+                  type: string
+                rival_team_id:
+                  description: Rival's team id
+                  type: string
+                winner_team_id:
+                  description: Winner's team id
+                  type: string
+                match_result:
+                  description: Match result
+                  type: string
+                match_level: 
+                  description: Match level
+                  type: string
+                match_date: 
+                  description: Match date
+                  type: string
+                  format: Date
+            href: "/api/matches/15/"
+'404':
+  description: The match was not found
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/matches/15/"
+        "@error":
+          "@message": Not found
+          "@messages":
+          - Match not found
+        "@controls":
+          profile:
+            href: "/profiles/error/"
+'403':
+  description: Authentication error
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/matches/15/"
+        "@error":
+          "@message": Forbidden
+          "@messages":
+          - Authentication error
+        "@controls":
+          profile:
+            href: "/profiles/error/"

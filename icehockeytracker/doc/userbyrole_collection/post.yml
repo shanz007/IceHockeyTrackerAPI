@@ -1,0 +1,83 @@
+description: Create a new user
+tags: 
+- User by Role
+security:
+- IceHockeyTrackerAdminKey: [admin]
+parameters:
+- $ref: '#/components/parameters/role_code'
+requestBody:
+description: JSON document that contains basic data for a new user
+content:
+  application/vnd.mason+json:
+    schema:
+      $ref: '#/components/schemas/User'
+    example:
+      user_id: 1
+      full_name: Player A Full Name
+      nick_name: PLA
+      email: playera@gmail.com
+      date_of_birth: '1982-04-15T20:20:39+00:00'
+      ssn: 150482-6176
+      password: $2b$12$4VNKeSi.IDZqz7t/DvyrM.8v0.kwHwU9ZVqZcQwZX42Zy0E.iAS3C
+      role_id: 1
+      rank: 0
+responses:
+'201':
+  description: The user was created successfully
+  headers:
+    Location:
+      schema:
+        type: string
+      description: Location URL for created user
+'400':
+  description: The request body was not valid
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/roles/s/uers/"
+        "@error":
+          "@message": Not found
+          "@messages":
+          - Organization not found
+        "@controls":
+          profile:
+            href: "/profiles/error/"    
+'409':
+  description: A user with the same code already exists
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/roles/s/uers/"
+        "@error":
+          "@message": Conflict
+          "@messages":
+          - User already exists
+        "@controls":
+          profile:
+            href: "/profiles/error/" 
+'415':
+  description: Wrong media type was used
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/roles/s/uers/"
+        "@error":
+          "@message": Unsupported media type
+          "@messages":
+          - Unsuported media type
+        "@controls":
+          profile:
+            href: "/profiles/error/" 
+'403':
+  description: Authentication error
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/roles/s/uers/"
+        "@error":
+          "@message": Forbidden
+          "@messages":
+          - Auth error
+        "@controls":
+          profile:
+            href: "/profiles/error/" 

@@ -1,0 +1,82 @@
+description: Replace teams's basic data with new values
+tags: 
+- teams
+security:
+- IceHockeyTrackerAdminKey: [admin]
+requestBody:
+description: JSON document that contains new basic data for the team
+content:
+  application/vnd.mason+json:
+    schema:
+      $ref: '#/components/schemas/Team'
+    example:
+      name: team test edited
+      code: TEST
+      description: new test team to edit
+responses:
+'204':
+  description: The team's attributes were updated successfully
+'400':
+  description: The request body was not valid
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/teams/13/"
+        "@error":
+          "@message": Bad request
+          "@messages": Bad request
+        "@controls":
+          profile:
+            href: "/profiles/error/"
+'404':
+  description: The team was not found
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/teams/13/"
+        "@error":
+          "@message": Not found
+          "@messages":
+          - Team not found
+        "@controls":
+          profile:
+            href: "/profiles/error/"
+'409':
+  description: A team with the same name already exists
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/teams/13/"
+        "@error":
+          "@message": Conflict
+          "@messages":
+          - Team exist
+        "@controls":
+          profile:
+            href: "/profiles/error/"
+'415':
+  description: Wrong media type was used
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/teams/13/"
+        "@error":
+          "@message": Unsupported media type
+          "@messages":
+          - unsupported media type
+        "@controls":
+          profile:
+            href: "/profiles/error/"
+'403':
+  description: Authentication error
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/teams/13/"
+        "@error":
+          "@message": Forbidden
+          "@messages":
+          - Authentication error
+        "@controls":
+          profile:
+            href: "/profiles/error/"

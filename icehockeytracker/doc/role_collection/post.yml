@@ -1,0 +1,70 @@
+description: Create a new Role
+security:
+- IceHockeyTrackerAdminKey: [admin]
+requestBody:
+description: JSON document that contains basic data for a new role
+content:
+  application/vnd.mason+json:
+    schema:
+      $ref: '#/components/schemas/Role'
+    example:
+      role_name: Test Role
+      role_code: TES
+      role_description: new test role to add
+responses:
+'201':
+  description: The Role was created successfully
+  headers:
+    Location:
+      schema:
+        type: string
+      description: Location URL for created role
+'400':
+  description: The request body was not valid
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: /api/roles/
+        "@error": 
+          "@message": "Invalid request"
+          "@messages":
+            - The request body was not valid
+          "@controls":
+            profile:
+              href: /profiles/error/
+'409':
+  description: A role with the same code already exists
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: /api/roles/
+        "@error": 
+          "@message": Conflict
+          "@messages": Role exists
+          "@controls":
+            profile:
+              href: /profiles/error/
+'415':
+  description: Wrong media type was used
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: /api/roles/
+        "@error": 
+          "@message": Unsupported media type
+          "@messages": Unsupported media type
+          "@controls":
+            profile:
+              href: /profiles/error/
+'403':
+  description: Authentication error
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: /api/roles/
+        "@error": 
+          "@message": Forbidden
+          "@messages": Authentication error
+          "@controls":
+            profile:
+              href: /profiles/error/

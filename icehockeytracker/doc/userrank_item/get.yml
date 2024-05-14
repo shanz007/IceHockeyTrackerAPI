@@ -1,0 +1,87 @@
+description: Get details of one userrank
+parameters:
+- $ref: '#/components/parameters/id'
+tags: 
+- Userranks
+security:
+- IceHockeyTrackerAdminKey: [admin]
+responses:
+'200':
+  description: List of Userranks
+  content:
+    application/vnd.mason+json:
+      example:
+          rank_base_id: The rank_base_id
+          ranker_comment:  The ranker's comment
+          ranker_user_id:  The ranker's user id
+          ranked_added_date:  The ranked added date
+        "@namespaces":
+          icehoctrack:
+            name: "/icehockeytracker/link-relations/"
+        "@controls":
+          self:
+            href: "/api/userranks/1/"
+          profile:
+            href: "/profiles/userrank_item/"
+          collection:
+            href: "/api/userranks/"
+          icehoctrack:delete-userrank:
+            method: DELETE
+            title: Delete this Userrank
+            href: "/api/userranks/1/"
+          edit:
+            method: PUT
+            encoding: json
+            title: Edit this Userrank
+            schema:
+              type: object
+              required:
+              - user_id
+              - rank_base_id
+              - ranker_comment
+              - ranker_user_id
+              - ranked_added_date
+              properties:
+                user_id:
+                  description: User id
+                  type: string
+                rank_base_id:
+                  description: The rank_base_id
+                  type: string
+                ranker_comment:
+                  description: The ranker's comment
+                  type: string
+                ranker_user_id:
+                  description: The ranker's user id
+                  type: string
+                ranked_added_date:
+                  description: The ranked added date
+                  type: string
+                  format: Date
+            href: "/api/userranks/"
+'404':
+  description: The Userrank was not found
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/userranks/19/"
+        "@error":
+          "@message": Not found
+          "@messages":
+          - Userranks not found
+        "@controls":
+          profile:
+            href: "/profiles/error/"
+'403':
+  description: Authentication error
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: "/api/userranks/19/"
+        "@error":
+          "@message": Forbidden
+          "@messages":
+          - Authentication error
+        "@controls":
+          profile:
+            href: "/profiles/error/"

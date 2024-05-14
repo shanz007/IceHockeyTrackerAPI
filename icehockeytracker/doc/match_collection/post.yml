@@ -1,0 +1,70 @@
+description: Create a new Match
+security:
+- IceHockeyTrackerAdminKey: [admin]
+requestBody:
+description: JSON document that contains basic data for a new role
+content:
+  application/vnd.mason+json:
+    schema:
+      $ref: '#/components/schemas/Match'
+    example:
+      role_name: Test Role
+      role_code: TES
+      role_description: new test role to add
+responses:
+'201':
+  description: The Match was created successfully
+  headers:
+    Location:
+      schema:
+        type: string
+      description: Location URL for created role
+'400':
+  description: The request body was not valid
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: /api/matches/
+        "@error": 
+          "@message": "Invalid request"
+          "@messages":
+            - The request body was not valid
+          "@controls":
+            profile:
+              href: /profiles/error/
+'409':
+  description: A match with the same id already exists
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: /api/matches/
+        "@error": 
+          "@message": Conflict
+          "@messages": Match exists
+          "@controls":
+            profile:
+              href: /profiles/error/
+'415':
+  description: Wrong media type was used
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: /api/matches/
+        "@error": 
+          "@message": Unsupported media type
+          "@messages": Unsupported media type
+          "@controls":
+            profile:
+              href: /profiles/error/
+'403':
+  description: Authentication error
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: /api/matches/
+        "@error": 
+          "@message": Forbidden
+          "@messages": Authentication error
+          "@controls":
+            profile:
+              href: /profiles/error/

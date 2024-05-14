@@ -1,0 +1,70 @@
+description: Create a new Rankbase
+security:
+- IceHockeyTrackerAdminKey: [admin]
+requestBody:
+description: JSON document that contains basic data for a new Rankbase
+content:
+  application/vnd.mason+json:
+    schema:
+      $ref: '#/components/schemas/Rankbases'
+    example:
+      role_id: 1
+      rank_base_description: PLA-PASSING-LOW
+      rank_score: 2
+responses:
+'201':
+  description: The Rankbases was created successfully
+  headers:
+    Location:
+      schema:
+        type: string
+      description: Location URL for created Rankbases
+'400':
+  description: The request body was not valid
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: /api/rankbases/
+        "@error": 
+          "@message": "Invalid request"
+          "@messages":
+            - The request body was not valid
+          "@controls":
+            profile:
+              href: /profiles/error/
+'409':
+  description: A rankbases with the same code already exists
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: /api/rankbases/
+        "@error": 
+          "@message": Conflict
+          "@messages": Rankbases exists
+          "@controls":
+            profile:
+              href: /profiles/error/
+'415':
+  description: Wrong media type was used
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: /api/rankbases/
+        "@error": 
+          "@message": Unsupported media type
+          "@messages": Unsupported media type
+          "@controls":
+            profile:
+              href: /profiles/error/
+'403':
+  description: Authentication error
+  content:
+    application/vnd.mason+json:
+      example:
+        resource_url: /api/rankbases/
+        "@error": 
+          "@message": Forbidden
+          "@messages": Authentication error
+          "@controls":
+            profile:
+              href: /profiles/error/
