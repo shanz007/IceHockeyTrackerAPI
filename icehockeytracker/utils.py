@@ -1,53 +1,5 @@
-import re
-
-from flask import request
-
-def is_valid_email(email):
-    """validare email
-
-    Args:
-        email (_type_): _description_
-
-    Returns:
-        _type_: _description_
-    """    
-    # Regular expression pattern for matching email addresses
-    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-    # Match the email address against the pattern
-    if re.match(pattern, email):
-        return True
-    else:
-        return False
-    
-def is_valid_ssn(ssn, date_of_birth):
-    """ Validate provided ssn against the provided date of birth.
-    Args:
-        ssn (_type_): _description_
-        date_of_birth (_type_): _description_
-
-    Returns:
-        _type_: _description_
-    """    
-    # Extracting the components of the SSN
-    ssn_components = re.match(r'(\d{2})(\d{2})(\d{2})-(\d{4})', ssn)
-    if not ssn_components:
-        return False
-    
-    day, month, year, random = ssn_components.groups()
-    
-    # Formatting the date of birth
-    formatted_dob = date_of_birth.strftime('%d%m%y')
-    
-    # Checking if the SSN date of birth matches the provided date of birth
-    if day+month+year == formatted_dob:
-        return True
-    else:
-        return False
-        
-        
-       
 """
-This file contains the util functions
+This file contains the util functions and mason related codes
 
 """
 
@@ -56,10 +8,9 @@ import json
 import secrets
 
 from flask import abort, request, url_for, Response
-from icehockeytracker.models import *
+#from icehockeytracker.models import Role,User
 
 from icehockeytracker.constants import ERROR_PROFILE, MASON, NAMESPACE
-
 
 class MasonBuilder(dict):
     """
@@ -383,7 +334,7 @@ class IceHockeyTrackerSystemBuilder(MasonBuilder):
             f"{NAMESPACE}:match",
             url_for("api.matchtitem", match=match),
             method="GET",
-            title="For getting match",
+            title="For getting match"
         )
 
     def add_control_match_list(self):
@@ -394,7 +345,7 @@ class IceHockeyTrackerSystemBuilder(MasonBuilder):
             f"{NAMESPACE}:matches-all",
             url_for("api.matchescollection"),
             method="GET",
-            title="For getting a  matches",
+            title="For getting a  matches"
         )
 
     def add_control_role(self, role):
@@ -402,7 +353,7 @@ class IceHockeyTrackerSystemBuilder(MasonBuilder):
         A method  to add control to get one role
         """
         self.add_control(
-            f"{NAMESPACE:role",
+            f"{NAMESPACE}:role",
             url_for("api.roleitem", role=role),
             method="GET",
             title="get role"
@@ -414,7 +365,7 @@ class IceHockeyTrackerSystemBuilder(MasonBuilder):
 
         """
         self.add_control(
-            f"{NAMESPACE:roles-all",
+            f"{NAMESPACE}:roles-all",
             url_for("api.rolecollection"),
             method="GET",
             title="For getting a collection of all roles"
@@ -422,6 +373,43 @@ class IceHockeyTrackerSystemBuilder(MasonBuilder):
 
 
 
+def request_path_cache_key(*args, **kwargs):
+    """
+    Helper function for caching Resources. Fix for cache.cached not working with
+        request.path as default.
+    Used in all get functions in the application
+    :return: returns a string which is the desired cache key "request.path"
+    """
+    return request.path
 
 
+def create_error_message(status_code, error, message=None):
+    """
+    Method to create error message
+    Return
+        - Error object
+    """
+    resource_url = request.path
+    body = MasonBuilder(resource_url=resource_url)
+    body.add_error(error, message)
+    body.add_control("profile", href=ERROR_PROFILE)
+    error_response = Response(json.dumps(body), status_code, mimetype=MASON)
+    return abort(error_response)
+    
+    
+def require_admin(func):
+    """
+    Method to validate admin key
+    """
 
+    def wrapper(*args, **kwargs):
+        api_key = request.headers.get("HRSystem-Api-Key")
+        if api_key is None:
+            return create_error_message(403, "Authentication Error")
+        key_hash = ApiKey.key_hash(
+            request.headers.get("HRSystem-Api-Key").strip())
+        db_key = ApiKey.query.filter_by(admin=True).first()
+        if secrets.compare_digest(key_hash, db_key.key):
+            return func(*args, **kwargs)
+        return create_error_message(403, "Authentication Error")
+    return wrapper
