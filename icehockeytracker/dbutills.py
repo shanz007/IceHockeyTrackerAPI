@@ -2,9 +2,11 @@
 """
 This class is used to initialize & poulate database with test data.
 """ 
+
 import secrets
 import datetime
 import click
+import logging
 from flask.cli import with_appcontext
 from icehockeytracker import db
 from icehockeytracker.models import Role, Rankbase, User, UserAuthenticationKey,UserRank, Team, TeamUser, Match, MatchFeedback
@@ -17,6 +19,9 @@ def init_db_command():
     """
     Method to initialize database
     """
+    
+    # Configure logging
+    configure_logging()
     print("create database===========================================>")
     db.create_all()
 
@@ -46,29 +51,29 @@ def populate_db_command():
     
     db.session.commit()
     
-    rankbase = Rankbase(rankbase_role=role1, rank_base_description="PLA-PASSING-WEAK", rank_score=0)
-    rankbase1= Rankbase(rankbase_role=role1, rank_base_description="PLA-PASSING-LOW", rank_score=2)
-    rankbase2 = Rankbase(rankbase_role=role1, rank_base_description="PLA-PASSING-MEDIUM", rank_score=4)
-    rankbase3 = Rankbase(rankbase_role=role1, rank_base_description="PLA-PASSING-GOOD", rank_score=6)
-    rankbase4 = Rankbase(rankbase_role=role1, rank_base_description="PLA-PASSING-EXCELLENT", rank_score=8)
+    rankbase = Rankbase(rankbase_role=role1, rank_base_code="PLA-PASSING-WEAK", rank_score=0)
+    rankbase1= Rankbase(rankbase_role=role1, rank_base_code="PLA-PASSING-LOW", rank_score=2)
+    rankbase2 = Rankbase(rankbase_role=role1, rank_base_code="PLA-PASSING-MEDIUM", rank_score=4)
+    rankbase3 = Rankbase(rankbase_role=role1, rank_base_code="PLA-PASSING-GOOD", rank_score=6)
+    rankbase4 = Rankbase(rankbase_role=role1, rank_base_code="PLA-PASSING-EXCELLENT", rank_score=8)
 
-    rankbase5 = Rankbase(rankbase_role=role1, rank_base_description="PLA-POSITION-WEAK", rank_score=0)
-    rankbase6 = Rankbase(rankbase_role=role1, rank_base_description="PLA-POSITION-LOW", rank_score=2)
-    rankbase7 = Rankbase(rankbase_role=role1, rank_base_description="PLA-POSITION-MEDIUM", rank_score=4)
-    rankbase8 = Rankbase(rankbase_role=role1, rank_base_description="PLA-POSITION-GOOD", rank_score=6)
-    rankbase9 = Rankbase(rankbase_role=role1, rank_base_description="PLA-POSITION-EXCELLENT", rank_score=8)
+    rankbase5 = Rankbase(rankbase_role=role1, rank_base_code="PLA-POSITION-WEAK", rank_score=0)
+    rankbase6 = Rankbase(rankbase_role=role1, rank_base_code="PLA-POSITION-LOW", rank_score=2)
+    rankbase7 = Rankbase(rankbase_role=role1, rank_base_code="PLA-POSITION-MEDIUM", rank_score=4)
+    rankbase8 = Rankbase(rankbase_role=role1, rank_base_code="PLA-POSITION-GOOD", rank_score=6)
+    rankbase9 = Rankbase(rankbase_role=role1, rank_base_code="PLA-POSITION-EXCELLENT", rank_score=8)
         
-    rankbase10 = Rankbase(rankbase_role=role2, rank_base_description="COA-PLAYER-SWAP-WEAK", rank_score=0)
-    rankbase11 = Rankbase(rankbase_role=role2, rank_base_description="COA-PLAYER-SWAP-LOW", rank_score=2)
-    rankbase12 = Rankbase(rankbase_role=role2, rank_base_description="COA-PLAYER-SWAP-MEDIUM", rank_score=4)
-    rankbase13 = Rankbase(rankbase_role=role2, rank_base_description="COA-PLAYER-SWAP-GOOD", rank_score=6)
-    rankbase14 = Rankbase(rankbase_role=role2, rank_base_description="COA-PLAYER-SWAP-EXCELLENT", rank_score=8)
+    rankbase10 = Rankbase(rankbase_role=role2, rank_base_code="COA-PLAYER-SWAP-WEAK", rank_score=0)
+    rankbase11 = Rankbase(rankbase_role=role2, rank_base_code="COA-PLAYER-SWAP-LOW", rank_score=2)
+    rankbase12 = Rankbase(rankbase_role=role2, rank_base_code="COA-PLAYER-SWAP-MEDIUM", rank_score=4)
+    rankbase13 = Rankbase(rankbase_role=role2, rank_base_code="COA-PLAYER-SWAP-GOOD", rank_score=6)
+    rankbase14 = Rankbase(rankbase_role=role2, rank_base_code="COA-PLAYER-SWAP-EXCELLENT", rank_score=8)
 
-    rankbase15  = Rankbase(rankbase_role=role3, rank_base_description="MAN-TARGET-YIELD-WEAK", rank_score=0)
-    rankbase16  = Rankbase(rankbase_role=role3, rank_base_description="MAN-TARGET-YIELD-LOW", rank_score=2)
-    rankbase17  = Rankbase(rankbase_role=role3, rank_base_description="MAN-TARGET-YIELD-MEDIUM", rank_score=4)
-    rankbase18  = Rankbase(rankbase_role=role3, rank_base_description="MAN-TARGET-YIELD-GOOD", rank_score=6)
-    rankbase19  = Rankbase(rankbase_role=role3, rank_base_description="MAN-TARGET-YIELD-EXCELLENT", rank_score=8)
+    rankbase15  = Rankbase(rankbase_role=role3, rank_base_code="MAN-TARGET-YIELD-WEAK", rank_score=0)
+    rankbase16  = Rankbase(rankbase_role=role3, rank_base_code="MAN-TARGET-YIELD-LOW", rank_score=2)
+    rankbase17  = Rankbase(rankbase_role=role3, rank_base_code="MAN-TARGET-YIELD-MEDIUM", rank_score=4)
+    rankbase18  = Rankbase(rankbase_role=role3, rank_base_code="MAN-TARGET-YIELD-GOOD", rank_score=6)
+    rankbase19  = Rankbase(rankbase_role=role3, rank_base_code="MAN-TARGET-YIELD-EXCELLENT", rank_score=8)
     
     
     db.session.add(rankbase)
@@ -276,7 +281,42 @@ def populate_db_command():
     db.session.add(matchfeedback4)
     db.session.add(matchfeedback5)
     
+    
+    print("generate_master_key for Player 1")
+    logging.info("generate_master_key  was accessed")
+  
+    #layer auth realted data
+    token1 = secrets.token_urlsafe()
+       
+   
+
+    #Example for User
+    userAuthkey1 = UserAuthenticationKey(key=UserAuthenticationKey.key_hash(token1), admin=False, userauthkey_user=user1)
+    
+    # Administrator key
+    
+    #layer auth realted data
+    token6 = secrets.token_urlsafe()
+  
+    userAuthkey2= UserAuthenticationKey(
+             key = UserAuthenticationKey.key_hash(token6), 
+             admin=True, 
+             userauthkey_user=user14
+            )
+
+    db.session.add(userAuthkey1)
+    db.session.add(userAuthkey2)
+    
+    print("Player1 token : " + token1+ " ")
+  
+    print("Administrator 14 : token: " + token6+ " ")
+  
+    
     db.session.commit()
+
+def configure_logging():
+    logging.basicConfig(level=logging.DEBUG,  # Set the default logging level
+                        format='%(levelname)s:%(name)s: %(message)s')  # Custom format
 
 
 @click.command("authkey")
@@ -285,7 +325,9 @@ def generate_master_key():
     """
     Used for generating  Administrator and other role related keys 
     """
-      
+    print("generate_master_key accessed!!!")  # Print to console
+    logging.info("generate_master_key  was accessed")
+
     # Player auth realted data
     token1 = secrets.token_urlsafe()
     token2 = secrets.token_urlsafe()
@@ -328,7 +370,9 @@ def generate_master_key():
     db.session.add(userAuthkey4)
     db.session.add(userAuthkey5)
     db.session.add(userAuthkey6)
-
+    
+    print("Administrator 14 : key: " + token6)
+  
     db.session.commit()
     
 
