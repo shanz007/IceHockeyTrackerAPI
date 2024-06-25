@@ -1,12 +1,15 @@
 """
 This module encapsulated all the requirments of Flask application
 """
+import json
+import os
+import logging
+from flasgger import Swagger, swag_from
 from flask import Flask, send_from_directory, Response
 from flask_sqlalchemy import SQLAlchemy
 from flask_caching import Cache
 from flask_bcrypt import Bcrypt
-import json
-import os
+
 
 from icehockeytracker.constants import LINK_RELATIONS_URL, MASON, NAMESPACE, DOC_FOLDER
 from icehockeytracker.utils import request_path_cache_key
@@ -16,12 +19,20 @@ cache = Cache()
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 
+def configure_logging():
+    logging.basicConfig(level=logging.DEBUG,  # Set the default logging level
+                        format='%(levelname)s:%(name)s: %(message)s')  # Custom format
+
 def create_app(test_config=None):
     # Create the Flask application
     icehockeytracker = Flask(__name__, instance_relative_config=True, static_folder='static', static_url_path='')
 
     # Configure the Flask application
     configure_app(icehockeytracker, test_config)
+    
+    
+    # Configure logging
+    configure_logging()
 
     # Initialize extensions and configure within the application context
     with icehockeytracker.app_context():
@@ -30,14 +41,16 @@ def create_app(test_config=None):
      
     # Add CLI commands
     add_cli_commands(icehockeytracker)
+    print("add_cli_commands accessed!!!")  # Print to console
+    logging.info("add_cli_commands accessed!!!")
+
     
-    
-    @app.route(LINK_RELATIONS_URL)
+    @icehockeytracker.route(LINK_RELATIONS_URL)
     def send_link_relations():
         return icehockeytracker.send_static_file("html/linkrelation.html")
         
    
-    @app.route("/profiles/<profile>/")
+    @icehockeytracker.route("/profiles/<profile>/")
     def send_profile(profile):
         # return "you requests {} profile".format(profile)
         if profile == 'role_item':
@@ -65,26 +78,26 @@ def create_app(test_config=None):
         else:
             return "Not available"
 
-    @app.route("/icehockeytracker/")
+    @icehockeytracker.route("/icehockeytracker/")
     def admin_site():
         return app.send_static_file("index.html")
         
     
     # avoids circular imports
-    from icehockeytracker.builder import IceHockeyTrackerBuilder
+    from icehockeytracker.utils import IceHockeyTrackerSystemBuilder 
 
     @cache.cached(timeout=None, make_cache_key=request_path_cache_key)
-    @app.route('/api/')
+    @icehockeytracker.route('/api/')
     @swag_from(os.getcwd() + f"{DOC_FOLDER}entrypoint/get.yml")
     def api_entrypoint():
         """
         Entrypoint to the API
         """
-        body = IceHockeyTrackerBuilder()
+        body = IceHockeyTrackerSystemBuilder()
         body.add_namespace(NAMESPACE, LINK_RELATIONS_URL)
         body.add_control_all_roles()
         body.add_control_all_users()
-        body.add_control_all_teams)
+        body.add_control_all_teams()
         return Response(json.dumps(body), 200, mimetype=MASON)
 
     return icehockeytracker
@@ -98,16 +111,25 @@ def configure_app(icehockeytracker, test_config):
         CACHE_TYPE="FileSystemCache",
         CACHE_DIR=os.path.join(icehockeytracker.instance_path, "cache"),
     )
-    
+    icehockeytracker.config['DEBUG'] = True
+
     icehockeytracker.config["SWAGGER"] = {
         "title": "PWP IceHockeyTracker  API",
         "openapi": "3.0.3",
         "uiversion": 3,
         "doc_dir": "./doc",
     }
-    Swagger(icehockeytracker, template_file="doc/doc.yml")
+  
+    SWAGGER_SETTINGS = {
+        'DEFAULT_INFO': 'urls.swagger_info',   #your swagger_info on your urls page
+    }
 
-    
+    REDOC_SETTINGS = {
+        'SPEC_URL': ('schema-json', {'format': '.json'}),
+    }
+
+    Swagger(icehockeytracker, template_file="doc/doc.yml")
+   
     # Load additional configuration from test_config if provided
     if test_config is None:
         icehockeytracker.config.from_pyfile("config.py", silent=True)
@@ -133,29 +155,32 @@ def add_url_converters(icehockeytracker):
     from icehockeytracker.converters import (RoleConverter,
                                       UserConverter,
                                       TeamConverter,
-                                      RankbaseConverter,
-                                      MatchConverter)
+                                      RankbaseConverter
+                                      )
 
     # Add converters
     icehockeytracker.url_map.converters["Role"] = RoleConverter
     icehockeytracker.url_map.converters["User"] = UserConverter
     icehockeytracker.url_map.converters["Team"] = TeamConverter
     icehockeytracker.url_map.converters["Rankbase"] = RankbaseConverter
-    icehockeytracker.url_map.converters["Match"] = MatchConverter
+  #  icehockeytracker.url_map.converters["Match"] = MatchConverter
         
 
 def add_cli_commands(icehockeytracker):
     # Add CLI commands from models.py  
-    from icehockeytracker.dbutils import populate_test_data, run_tests, init_db_command, generate_master_key, delete_object
+    from icehockeytracker.dbutills import populate_db_command, init_db_command, generate_master_key, delete_object
     from . import api
     
     icehockeytracker.cli.add_command(dbutills.init_db_command)
-    icehockeytracker.cli.add_command(dbutills.populate_test_data)
+    icehockeytracker.cli.add_command(dbutills.populate_db_command)
     #icehockeytracker.cli.add_command(run_tests)
     icehockeytracker.cli.add_command(generate_master_key)
+    logging.info("generate_master_key accessed!!!")
+
+ 
     # icehockeytracker.cli.add_command(dbutills.delete_object)
  
     #Add URL Converters 
-    add_url_converters(icehockeytracker):
+    add_url_converters(icehockeytracker)
     
     icehockeytracker.register_blueprint(api.api_bp)
