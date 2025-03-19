@@ -2,6 +2,7 @@ Flask==3.0.2
 Flask-Bcrypt==1.0.1
 Flask-Caching==2.1.0
 Flask-SQLAlchemy==3.1.1
+flasgger==0.9.5  # or the latest version
 coverage==7.4.1
 bcrypt==4.1.2
 blinker==1.7.0
